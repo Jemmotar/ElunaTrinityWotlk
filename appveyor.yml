@@ -18,10 +18,14 @@ before_build:
   - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/root/bin
 
 build_script:
-  - sh: make
+  - sh: make -j 2
   - sh: sudo make install
   
 artifacts:
-  path: /home/appveyor/projects/elunatrinitywotlk/bin
-  name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)
-  type: zip
+  - path: /home/root/bin/
+    name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-bin
+    type: zip
+
+  - path: ../
+    name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-all
+    type: zip
