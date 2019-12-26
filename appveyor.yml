@@ -26,6 +26,6 @@ artifacts:
     name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-bin
     type: zip
 
-  - path: '*.*'
+  - path: *
     name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-all
     type: zip
