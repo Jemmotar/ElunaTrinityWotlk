@@ -22,7 +22,7 @@ build_script:
   - sh: sudo make install
   
 artifacts:
-  - path: /home/root/bin/
+  - path: bin
     name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-bin
     type: zip
 
