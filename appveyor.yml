@@ -19,7 +19,6 @@ before_build:
 
 build_script:
   - sh: make
-  - sh: mkdir bin/
   - sh: sudo make install
   
 artifacts:
