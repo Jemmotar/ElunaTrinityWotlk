@@ -16,10 +16,10 @@ before_build:
   - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/root/bin
   - sh: ls
 
-build:
-  verbosity: normal
+build_script:
+  - sh: make && make install
   
 artifacts:
-  path: /home/appveyor/projects/elunatrinitywotlk/build
+  path: /home/appveyor/projects/elunatrinitywotlk/bin
   name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)
   type: zip
