@@ -4,8 +4,6 @@ platform: Any CPU
 version: '1.0.{build}'
 skip_tags: true
 
-services: mysql
-
 install:
   - sh: sudo apt-get update
   - sh: sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev libmysql++-dev git clang cmake make gcc g++ libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip
@@ -19,3 +17,8 @@ before_build:
 
 build:
   verbosity: normal
+  
+artifacts:
+  path: /home/appveyor/projects/elunatrinitywotlk/build
+  name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)
+  type: zip
