@@ -11,13 +11,15 @@ install:
   - sh: sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
   
 before_build:
+  - sh: git submodule init
+  - sh: git submodule update
   - sh: mkdir build
   - sh: cd build
   - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/root/bin
-  - sh: ls
 
 build_script:
-  - sh: make && make install
+  - sh: make
+  - sh: make install
   
 artifacts:
   path: /home/appveyor/projects/elunatrinitywotlk/bin
