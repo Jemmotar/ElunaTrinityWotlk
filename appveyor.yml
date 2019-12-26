@@ -4,6 +4,8 @@ platform: Any CPU
 version: '1.0.{build}'
 skip_tags: true
 
+services: mysql
+
 install:
   - sh: sudo apt-get update
   - sh: sudo apt-get install -y git clang cmake make gcc g++ libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip
