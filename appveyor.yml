@@ -10,7 +10,7 @@ install:
   - sh: sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
   - sh: sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
   
- before_build:
+before_build:
   - sh: mkdir build
   - sh: cd build
   - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/root/bin
