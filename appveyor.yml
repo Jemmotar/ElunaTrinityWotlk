@@ -19,7 +19,8 @@ before_build:
 
 build_script:
   - sh: make
-  - sh: make install
+  - sh: mkdir bin/
+  - sh: sudo make install
   
 artifacts:
   path: /home/appveyor/projects/elunatrinitywotlk/bin
