@@ -14,6 +14,7 @@ before_build:
   - sh: mkdir build
   - sh: cd build
   - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/root/bin
+  - sh: ls
 
 build:
   verbosity: normal
