@@ -5,26 +5,28 @@ version: '1.0.{build}'
 skip_tags: true
 
 install:
-  - sh: git submodule init
-  - sh: git submodule update # Install the Elua engine, it is referenced as a git submodule in the repository.
-  - sh: sudo apt-get update # Update packages and install libraries needed by TrinityCore.
+  - sh: sudo apt-get update # Update packages and install libraries needed by TrinityCore (https://trinitycore.atlassian.net/wiki/spaces/tc/pages/10977288/Linux+Requirements).
   - sh: sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev libmysql++-dev git clang cmake make gcc g++ libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip
   - sh: sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
   - sh: sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
   
 before_build:
-  - sh: mkdir build
-  - sh: cd build
-  - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/elunatrinitywotlk/bin # Compile TrinityCore source code.
+  - sh: git submodule init
+  - sh: git submodule update # Install the Eluna engine, it is referenced as a git submodule in the repository (https://github.com/ElunaLuaEngine/Eluna#about).
+  - sh: curl https://github.com/Rochet2/TrinityCore/compare/TrinityCore:3.3.5...dressnpcs_3.3.5.diff --output ../patches/dressnpcs_3.3.5.diff
+  - sh: git apply ./patches/dressnpcs_3.3.5.diff # Apply the DressNPCs patch (http://rochet2.github.io/Dress-NPCs).
 
 build_script:
+  - sh: mkdir build
+  - sh: cd build
+  - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/elunatrinitywotlk/bin # Compile TrinityCore source code (https://trinitycore.atlassian.net/wiki/spaces/tc/pages/10977309/Linux+Core+Installation).
   - sh: make -j 2 # Build TrinityCore binaries using available cores.
   - sh: sudo make install
   - sh: cd ..
   
 after_build :
-  - sh: git clone -q --branch=master https://github.com/Rochet2/AIO.git ../AIO # Clone AIO master branch into projects folder.
-  - sh: cp -r ../AIO/AIO_Server bin/bin/lua_scripts # Copy server side of AIO to the script folder.
+  - sh: git clone -q --branch=master https://github.com/Rochet2/AIO.git ../AIO # Clone AIO master branch into projects folder (https://github.com/Rochet2/AIO).
+  - sh: sudo cp -r ../AIO/AIO_Server bin/bin/lua_scripts # Copy server side of AIO to the script folder.
   
 artifacts:
   - path: bin
