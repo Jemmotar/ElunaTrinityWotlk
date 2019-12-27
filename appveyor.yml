@@ -14,16 +14,16 @@ install:
   
 before_build:
   - sh: mkdir build
-  - sh: cmake build -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/elunatrinitywotlk/bin # Compile TrinityCore source code.
+  - sh: cd build
+  - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/elunatrinitywotlk/bin # Compile TrinityCore source code.
 
 build_script:
-  - sh: cd build
   - sh: make -j 2 # Build TrinityCore binaries using available cores.
   - sh: sudo make install
   - sh: cd ..
   
 after_build :
-  - sh: git clone https://github.com/Rochet2/AIO.git ../AIO # Clone AIO master branch into projects folder.
+  - sh: git clone -q --branch=master https://github.com/Rochet2/AIO.git ../AIO # Clone AIO master branch into projects folder.
   - sh: cp -r ../AIO/AIO_Server bin/bin/lua_scripts # Copy server side of AIO to the script folder.
   
 artifacts:
