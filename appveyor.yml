@@ -20,12 +20,9 @@ before_build:
 build_script:
   - sh: make -j 2
   - sh: sudo make install
+  - sh: sudo mv -v /home/root/bin ../bin
   
 artifacts:
   - path: bin
-    name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-bin
-    type: zip
-
-  - path: *
-    name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)-all
+    name: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)
     type: zip
