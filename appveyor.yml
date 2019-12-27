@@ -5,22 +5,26 @@ version: '1.0.{build}'
 skip_tags: true
 
 install:
-  - sh: sudo apt-get update
+  - sh: git submodule init
+  - sh: git submodule update # Install the Elua engine, it is referenced as a git submodule in the repository.
+  - sh: sudo apt-get update # Update packages and install libraries needed by TrinityCore.
   - sh: sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev libmysql++-dev git clang cmake make gcc g++ libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev p7zip
   - sh: sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
   - sh: sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100
   
 before_build:
-  - sh: git submodule init
-  - sh: git submodule update
   - sh: mkdir build
-  - sh: cd build
-  - sh: cmake ../ -DCMAKE_INSTALL_PREFIX=/home/root/bin
+  - sh: cmake build -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/elunatrinitywotlk/bin # Compile TrinityCore source code.
 
 build_script:
-  - sh: make -j 2
+  - sh: cd build
+  - sh: make -j 2 # Build TrinityCore binaries using available cores.
   - sh: sudo make install
-  - sh: sudo mv -v /home/root/bin ../bin
+  - sh: cd ..
+  
+after_build :
+  - sh: git clone https://github.com/Rochet2/AIO.git ../AIO # Clone AIO master branch into projects folder.
+  - sh: cp -r ../AIO/AIO_Server bin/bin/lua_scripts # Copy server side of AIO to the script folder.
   
 artifacts:
   - path: bin
