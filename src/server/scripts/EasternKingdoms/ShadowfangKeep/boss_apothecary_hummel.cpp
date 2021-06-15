@@ -102,7 +102,7 @@ class boss_apothecary_hummel : public CreatureScript
         {
             boss_apothecary_hummelAI(Creature* creature) : BossAI(creature, DATA_APOTHECARY_HUMMEL), _deadCount(0), _isDead(false) { }
 
-            bool GossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
+            bool OnGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
             {
                 if (menuId == GOSSIP_MENU_HUMMEL && gossipListId == GOSSIP_OPTION_START)
                 {
@@ -155,7 +155,7 @@ class boss_apothecary_hummel : public CreatureScript
                             _isDead = true;
                             me->RemoveAurasDueToSpell(SPELL_ALLURING_PERFUME);
                             DoCastSelf(SPELL_PERMANENT_FEIGN_DEATH, true);
-                            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_UNK_29 | UNIT_FLAG_NOT_SELECTABLE);
+                            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                             Talk(SAY_HUMMEL_DEATH);
                         }
                     }
@@ -176,7 +176,7 @@ class boss_apothecary_hummel : public CreatureScript
                     Talk(SAY_HUMMEL_DEATH);
 
                 events.Reset();
-                me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_UNK_29 | UNIT_FLAG_NOT_SELECTABLE);
+                me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                 instance->SetBossState(DATA_APOTHECARY_HUMMEL, DONE);
 
                 Map::PlayerList const& players = me->GetMap()->GetPlayers();
@@ -274,7 +274,7 @@ class boss_apothecary_hummel : public CreatureScript
                 DoMeleeAttackIfReady();
             }
 
-            void QuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/) override
+            void OnQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/) override
             {
                 if (quest->GetQuestId() == QUEST_YOUVE_BEEN_SERVED)
                     DoAction(ACTION_START_EVENT);
@@ -404,7 +404,7 @@ class npc_apothecary_baxter : public CreatureScript
         }
 };
 
-// 68965 -[DND] Lingering Fumes Targetting (starter)
+// 68965 - [DND] Lingering Fumes Targetting (starter)
 class spell_apothecary_lingering_fumes : public SpellScriptLoader
 {
     public:
@@ -422,6 +422,9 @@ class spell_apothecary_lingering_fumes : public SpellScriptLoader
 
                 std::list<Creature*> triggers;
                 caster->GetCreatureListWithEntryInGrid(triggers, NPC_VIAL_BUNNY, 100.0f);
+                if (triggers.empty())
+                    return;
+
                 Creature* trigger = Trinity::Containers::SelectRandomContainerElement(triggers);
                 caster->GetMotionMaster()->MovePoint(0, trigger->GetPosition());
 
@@ -466,7 +469,6 @@ class spell_apothecary_validate_area : public SpellScriptLoader
                 targets.clear();
                 targets.push_back(target);
             }
-
 
             void HandleScript(SpellEffIndex /*effindex*/)
             {

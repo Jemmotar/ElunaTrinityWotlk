@@ -43,7 +43,7 @@ class instance_pit_of_saron : public InstanceMapScript
 
         struct instance_pit_of_saron_InstanceScript : public InstanceScript
         {
-            instance_pit_of_saron_InstanceScript(Map* map) : InstanceScript(map)
+            instance_pit_of_saron_InstanceScript(InstanceMap* map) : InstanceScript(map)
             {
                 SetHeaders(DataHeader);
                 SetBossNumber(EncounterCount);
@@ -157,7 +157,7 @@ class instance_pit_of_saron : public InstanceMapScript
                     case DATA_GARFROST:
                         if (state == DONE)
                         {
-                            if (Creature* summoner = instance->GetCreature(_garfrostGUID))
+                            if (instance->GetCreature(_garfrostGUID))
                             {
                                 if (_teamInInstance == ALLIANCE)
                                 {
@@ -175,7 +175,7 @@ class instance_pit_of_saron : public InstanceMapScript
                     case DATA_TYRANNUS:
                         if (state == DONE)
                         {
-                            if (Creature* summoner = instance->GetCreature(_tyrannusGUID))
+                            if (instance->GetCreature(_tyrannusGUID))
                             {
                                 if (_teamInInstance == ALLIANCE)
                                 {
@@ -268,7 +268,7 @@ class instance_pit_of_saron : public InstanceMapScript
                     if (Creature* trigger = instance->GetCreature(guid))
                     {
                         if (activate)
-                            trigger->m_Events.AddEvent(new ScheduledIcicleSummons(trigger), trigger->m_Events.CalculateTime(1000));
+                            trigger->m_Events.AddEvent(new ScheduledIcicleSummons(trigger), trigger->m_Events.CalculateTime(1s));
                         else
                             trigger->m_Events.KillAllEvents(false);
                     }

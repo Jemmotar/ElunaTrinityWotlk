@@ -106,9 +106,10 @@ struct npc_koltira_deathweaver : public ScriptedAI
 {
     npc_koltira_deathweaver(Creature* creature) : ScriptedAI(creature), _summons(me)
     {
+        _eventGossip = false;
     }
 
-    bool GossipHello(Player* player) override
+    bool OnGossipHello(Player* player) override
     {
         ObjectGuid const guid = me->GetGUID();
         _playerGUID = player->GetGUID();
@@ -126,7 +127,7 @@ struct npc_koltira_deathweaver : public ScriptedAI
         return false;
     }
 
-    void QuestAccept(Player* /* player */, Quest const* quest) override
+    void OnQuestAccept(Player* /* player */, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_BLOODY_BREAKOUT)
         {
@@ -610,6 +611,7 @@ public:
     };
 };
 
+// 53110 - Devour Humanoid
 class spell_death_knight_devour_humanoid : public SpellScript
 {
     PrepareSpellScript(spell_death_knight_devour_humanoid);

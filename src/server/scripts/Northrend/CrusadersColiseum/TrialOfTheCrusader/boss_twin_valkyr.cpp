@@ -320,7 +320,7 @@ struct boss_twin_baseAI : public BossAI
                 events.Repeat(20s);
                 break;
             case EVENT_TOUCH:
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 200.0f, true, true, OtherEssenceSpellId))
+                if (Unit* target = SelectTarget(SelectTargetMethod::Random, 0, 200.0f, true, true, OtherEssenceSpellId))
                 {
                     CastSpellExtraArgs args;
                     args.AddSpellMod(SPELLVALUE_MAX_TARGETS, 1); // @todo spellmgr correction instead?
@@ -545,7 +545,7 @@ class npc_essence_of_twin : public CreatureScript
                 return spellReturned;
             }
 
-            bool GossipHello(Player* player) override
+            bool OnGossipHello(Player* player) override
             {
                 player->RemoveAurasDueToSpell(GetData(ESSENCE_REMOVE));
                 player->CastSpell(player, GetData(ESSENCE_APPLY), true);
@@ -712,8 +712,7 @@ class npc_bullet_controller : public CreatureScript
         }
 };
 
-// 66149 - Bullet Controller Periodic
-// 68396 - Bullet Controller Periodic
+// 66149, 68396 - Bullet Controller Periodic
 class spell_bullet_controller : public AuraScript
 {
     PrepareAuraScript(spell_bullet_controller);
@@ -742,6 +741,7 @@ class spell_bullet_controller : public AuraScript
     }
 };
 
+// 67590, 67602, 67603, 67604 - Powering Up
 class spell_powering_up : public SpellScriptLoader
 {
     public:
@@ -799,6 +799,8 @@ class spell_powering_up : public SpellScriptLoader
         }
 };
 
+// 65684, 67176, 67177, 67178 - Dark Essence
+// 65686, 67222, 67223, 67224 - Light Essence
 class spell_valkyr_essences : public SpellScriptLoader
 {
     public:
@@ -899,6 +901,8 @@ class spell_valkyr_essences : public SpellScriptLoader
         }
 };
 
+// 65879, 67244, 67245, 67246 - Power of the Twins
+// 65916, 67248, 67249, 67250 - Power of the Twins
 class spell_power_of_the_twins : public SpellScriptLoader
 {
     public:
@@ -954,7 +958,7 @@ void AddSC_boss_twin_valkyr()
     new npc_essence_of_twin();
     new npc_bullet_controller();
 
-    RegisterAuraScript(spell_bullet_controller);
+    RegisterSpellScript(spell_bullet_controller);
     new spell_powering_up();
     new spell_valkyr_essences();
     new spell_power_of_the_twins();

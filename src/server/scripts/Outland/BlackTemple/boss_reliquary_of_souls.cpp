@@ -656,6 +656,12 @@ struct npc_reliquary_combat_trigger : public ScriptedAI
     {
         SetCombatMovement(false);
         creature->m_SightDistance = 70.0f;
+        SetBoundary(_instance->GetBossBoundary(DATA_RELIQUARY_OF_SOULS));
+    }
+
+    bool CanAIAttack(Unit const* who) const override
+    {
+        return ScriptedAI::CanAIAttack(who) && IsInBoundary(who);
     }
 
     void Reset() override
@@ -754,7 +760,6 @@ class spell_reliquary_of_souls_submerge : public AuraScript
         GetTarget()->SetByteValue(UNIT_FIELD_BYTES_1, UNIT_BYTES_1_OFFSET_STAND_STATE, UNIT_STAND_STATE_STAND);
     }
 
-
     void Register() override
     {
         AfterEffectApply += AuraEffectApplyFn(spell_reliquary_of_souls_submerge::OnApply, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
@@ -809,8 +814,8 @@ void AddSC_boss_reliquary_of_souls()
     RegisterBlackTempleCreatureAI(boss_essence_of_anger);
     RegisterBlackTempleCreatureAI(npc_enslaved_soul);
     RegisterBlackTempleCreatureAI(npc_reliquary_combat_trigger);
-    RegisterAuraScript(spell_reliquary_of_souls_aura_of_desire);
-    RegisterAuraScript(spell_reliquary_of_souls_submerge);
-    RegisterAuraScript(spell_reliquary_of_souls_spite);
+    RegisterSpellScript(spell_reliquary_of_souls_aura_of_desire);
+    RegisterSpellScript(spell_reliquary_of_souls_submerge);
+    RegisterSpellScript(spell_reliquary_of_souls_spite);
     RegisterSpellScript(spell_reliquary_of_souls_frenzy);
 }

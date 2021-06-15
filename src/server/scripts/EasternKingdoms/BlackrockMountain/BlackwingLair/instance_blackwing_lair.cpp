@@ -79,7 +79,7 @@ public:
 
     struct instance_blackwing_lair_InstanceMapScript : public InstanceScript
     {
-        instance_blackwing_lair_InstanceMapScript(Map* map) : InstanceScript(map)
+        instance_blackwing_lair_InstanceMapScript(InstanceMap* map) : InstanceScript(map)
         {
             SetHeaders(DataHeader);
             SetBossNumber(EncounterCount);
@@ -189,7 +189,7 @@ public:
                                 nefarian->DespawnOrUnsummon();
                             break;
                         case FAIL:
-                            _events.ScheduleEvent(EVENT_RESPAWN_NEFARIUS, 15 * IN_MILLISECONDS * MINUTE);
+                            _events.ScheduleEvent(EVENT_RESPAWN_NEFARIUS, 15min);
                             SetBossState(DATA_NEFARIAN, NOT_STARTED);
                             break;
                         default:

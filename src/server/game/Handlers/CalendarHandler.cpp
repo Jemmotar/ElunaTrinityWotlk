@@ -157,7 +157,7 @@ void WorldSession::HandleCalendarGetCalendar(WorldPacket& /*recvData*/)
     {
         HolidaysEntry const* holiday = sHolidaysStore.LookupEntry(entry);
 
-        data << uint32(holiday->Id);                        // m_ID
+        data << uint32(holiday->ID);                        // m_ID
         data << uint32(holiday->Region);                    // m_region, might be looping
         data << uint32(holiday->Looping);                   // m_looping, might be region
         data << uint32(holiday->Priority);                  // m_priority
@@ -843,7 +843,7 @@ void WorldSession::SendCalendarRaidLockoutUpdated(InstanceSave const* save)
 
     ObjectGuid guid = _player->GetGUID();
     TC_LOG_DEBUG("network", "SMSG_CALENDAR_RAID_LOCKOUT_UPDATED [%s] Map: %u, Difficulty %u",
-        guid.ToString().c_str(), save->GetMapId(), save->GetDifficulty());
+        guid.ToString().c_str(), save->GetMapId(), static_cast<uint32>(save->GetDifficulty()));
 
     time_t currTime = GameTime::GetGameTime();
 

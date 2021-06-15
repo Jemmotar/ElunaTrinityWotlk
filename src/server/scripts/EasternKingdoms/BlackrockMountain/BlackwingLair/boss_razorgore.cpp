@@ -181,7 +181,7 @@ class go_orb_of_domination : public GameObjectScript
 
             InstanceScript* instance;
 
-            bool GossipHello(Player* player) override
+            bool OnGossipHello(Player* player) override
             {
                 if (instance->GetData(DATA_EGG_EVENT) != DONE)
                 {
@@ -201,6 +201,7 @@ class go_orb_of_domination : public GameObjectScript
         }
 };
 
+// 19873 - Destroy Egg
 class spell_egg_event : public SpellScriptLoader
 {
     public:
